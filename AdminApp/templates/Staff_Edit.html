@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'dashboard.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Edit Staff Deatils Here </h4>
+            <form class="forms-sample" method="post" action="{% url 'Staff_Update' s_id=data.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Staff Name</label>
+                    <input type="text" class="form-control" id="exampleInputUsername1" name="sname"
+                           placeholder="Food Name" value="{{data.staff_name}}">
+                </div>
+              <div class="form-group">
+                    <label for="exampleInputUsername1">Role</label>
+                    <input type="text" class="form-control" id="exampleInputUsername12" name="role"
+                           placeholder="Role" value="{{data.role}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Salary</label>
+                    <input type="text" class="form-control" id="exampleInputUsername22" name="Salary"
+                           placeholder="Salary" value="{{data.staff_salary}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Email iD</label>
+                    <input type="text" class="form-control" id="exampleInputUsername21" name="email"
+                           placeholder="Email ID" value="{{data.staff_email}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Age</label>
+                    <input type="text" class="form-control" id="exampleInputUsername8" name="Age"
+                           placeholder="Age" value="{{data.staff_age}}">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Mobile Number</label>
+                    <input type="text" class="form-control" id="exampleInputUsername7" name="Mobile"
+                           placeholder="Mobile" value="{{data.staff_phone}}">
+                </div>
+                <div class="form-floating mb-3">
+                    <label for="floatingTextarea">Address</label>
+                    <textarea class="form-control" placeholder="Address" id="floatingTextarea"
+                              style="height: 150px;" name="Address">{{data.staff_Address}}</textarea>
+                </div>
+
+
+                <div class="form-group">
+                                  <img src="{{data.profile_image.url}}" width="100px" height="100px" class="mb-3">
+
+                    <label for="exampleInputUsername1">Profile Image</label>
+                    <input type="file" class="form-control" id="exampleInputUsername3" name="Image" placeholder="Image">
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <button class="btn btn-light" type="submit">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+        {% if i.tags == 'success' %}
+            <script>
+                swal('{{ i }}', '', 'success');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{ i }}', '', 'error');
+            </script>
+        {% elif i.tags == 'warning' %}
+            <script>
+                swal('{{ i }}', '', 'warning');
+            </script>
+        {% else %}
+            <script>
+                swal('{{ i }}', '', 'info');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>
+{% endblock %}

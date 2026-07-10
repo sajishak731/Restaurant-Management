@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'dashboard.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="pd-20 card-box mb-30">
+    <div class="clearfix mb-20">
+        <div class="pull-left">
+            <h4 class="text-blue h4">Category Details</h4>
+        </div>
+
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Staff Name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Email Id</th>
+            <th scope="col">Age</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Address</th>
+            <th scope="col">Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.staff_name}}</td>
+            <td>{{d.role}}</td>
+            <td>{{d.staff_salary}}</td>
+            <td>{{d.staff_email}}</td>
+            <td>{{d.staff_age}}</td>
+            <td>{{d.staff_phone}}</td>
+            <td>{{d.staff_Address}}</td>
+            <td><img src="{{d.profile_image.url}}" width="300px" height="200px"></td>
+             <td>
+                <a href="{% url 'Staff_Edit' t_id=d.id %}" class="btn btn-outline-success"> Edit</a>
+                <a href="{% url 'Staff_Delete' c_id=d.id %}" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+        {% if i.tags == 'success' %}
+            <script>
+                swal('{{ i }}', '', 'success');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{ i }}', '', 'error');
+            </script>
+        {% elif i.tags == 'warning' %}
+            <script>
+                swal('{{ i }}', '', 'warning');
+            </script>
+        {% else %}
+            <script>
+                swal('{{ i }}', '', 'info');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>
+{% endblock %}
