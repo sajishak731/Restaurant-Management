@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-import AdminApp.urls
+import AdminApp.urls,WebApp.urls
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns,static
 from . import settings
 
@@ -24,6 +24,7 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('AdminApp/', include(AdminApp.urls)),
+    path('WebApp/',include(WebApp.urls))
 
 ]
 

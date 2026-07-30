@@ -21,8 +21,12 @@
                 </div>
               <div class="form-group">
                     <label for="exampleInputUsername1">Category Name</label>
-                    <input type="text" class="form-control" id="exampleInputUsername2" name="cname"
-                           placeholder="Category Name">
+                    <select class="form-control" id="exampleselectgender" name="cname">
+                        <option>Select Category</option>
+                        {% for i in data %}
+                            <option>{{i.category_name}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputUsername1">Price</label>
@@ -31,8 +35,18 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputUsername1">Availability</label>
-                    <input type="text" class="form-control" id="exampleInputUsername7" name="Availability"
-                           placeholder="Availability">
+<!--                        <select class="form-control" id="exampleselectgender1" name="Availability">-->
+<!--                        <option>Select Category</option>-->
+<!--                        {% for i in data %}-->
+<!--                            <option>{{i.status}}</option>-->
+<!--                        {% endfor %}-->
+
+<!--                    </select>-->
+                       <select class="form-control" id="status" name="status" required>
+                        <option value="" selected disabled>Select Availability</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
                 <div class="form-floating mb-3">
                     <label for="floatingTextarea">Description</label>

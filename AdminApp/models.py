@@ -21,11 +21,30 @@ class FoodDb(models.Model):
 class StaffDb(models.Model):
     staff_name = models.CharField(max_length=100, blank=True, null=True)
     staff_age = models.CharField(max_length=100, blank=True, null=True)
-    staff_Address = models.CharField(max_length=100, blank=True, null=True)
     staff_salary = models.CharField(max_length=100, blank=True, null=True)
     staff_email = models.CharField(max_length=100, blank=True, null=True)
     staff_phone = models.CharField(max_length=100, blank=True, null=True)
     profile_image = models.ImageField(upload_to="Profile images", null=True, blank=True)
     role = models.CharField(max_length=100, blank=True, null=True)
+
+
+class Table(models.Model):
+    Table_no=models.IntegerField(null=True,blank=True)
+    Capacity=models.IntegerField(null=True,blank=True)
+    status = models.CharField(max_length=100,blank=True,null=True)
+
+class ReservationDB(models.Model):
+    customer_name = models.CharField(max_length=100,blank=True,null=True)
+    customer_phone = models.CharField(max_length=100, blank=True, null=True)
+    Reser_date=models.CharField(max_length=100, blank=True, null=True)
+    Reser_time=models.CharField(max_length=100, blank=True, null=True)
+    table_num=models.IntegerField(null=True,blank=True)
+    status = models.CharField(max_length=100,blank=True,null=True)
+
+
+
+
+
+
 
 

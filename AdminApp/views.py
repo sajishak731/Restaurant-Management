@@ -15,7 +15,6 @@ def dashboard(request):
 def Categories_Add(request):
     return render(request,'Categories_Add.html')
 
-
 def Category_Save(request):
     if request.method == "POST":
         category_name = request.POST.get('name')
@@ -26,7 +25,6 @@ def Category_Save(request):
         obj.save()
         messages.success(request, "Category added successfully!")
         return redirect(Categories_Add)
-
 
 def Category_View(request):
     data = CategoryDb.objects.all()
@@ -58,9 +56,9 @@ def Category_delete(request,c_id):
     return redirect(Category_View)
 
 
-
 def Food_Add(request):
-    return render(request,'Food_Add.html')
+    data=CategoryDb.objects.all()
+    return render(request,'Food_Add.html',{'data':data})
 
 def Food_Save(request):
     if request.method == "POST":
@@ -68,7 +66,7 @@ def Food_Save(request):
         category_name = request.POST.get('cname')
         description = request.POST.get('description')
         price = request.POST.get('Price')
-        availability = request.POST.get('Availability')
+        availability = request.POST.get('status')
         food_image = request.FILES.get('Image')
         obj = FoodDb(food_name=food_name,category_name=category_name,description=description,price=price,avialable=availability,food_image=food_image)
         obj.save()
@@ -83,11 +81,13 @@ def food_view(request):
 def Food_delete(request,c_id):
     data = FoodDb.objects.filter(id =c_id)
     data.delete()
+    data1=FoodDb.objects.all()
     messages.success(request, "Food item Deleted successfully!")
-    return redirect(food_view)
+    return redirect(food_view,{'data1':data1})
 
-def Food_Edit(request):
-    return render(request,'Food_Edit.html')
+def Food_Edit(request,c_id):
+    data=FoodDb.objects.all()
+    return render(request,'Food_Edit.html',{'data':data})
 
 def Food_update(request,c_id):
     category_name = request.POST.get('cname')
