@@ -113,9 +113,7 @@ def add_cart(request):
 
 def save_cart_items(request):
     if request.method == "POST":
-        print(request.POST.get("foodId"))
-        print(request.POST.get("quantity"))
-        print(request.POST.get("quantity"))
+
 
         food_id = request.POST.get("foodId")
         # quantity = request.POST.get("quantity")
@@ -164,18 +162,24 @@ def checkout(request):
     return render(request,'checkout.html',context)
 
 
-def payment(request):
-    if request.method == "POST":
-
-        request.session['name'] = request.POST.get('name')
-        request.session['email'] = request.POST.get('email')
-        request.session['phone'] = request.POST.get('phone')
-        request.session['address'] = request.POST.get('address')
-        request.session['payment'] = request.POST.get('payment')
-
-        return render(request, 'payment.html')
-
-    return redirect('checkout')
+# def payment(request):
+#     if request.method == "POST":
+#
+#         request.session['name'] = request.POST.get('name')
+#         request.session['email'] = request.POST.get('email')
+#         request.session['phone'] = request.POST.get('phone')
+#         request.session['address'] = request.POST.get('address')
+#         request.session['payment'] = request.POST.get('payment')
+#
+#         payment_method = request.POST.get("payment")
+#         if payment_method == "Cash on Delivery":
+#             return redirect(place_order) # Skip Razorpay
+#         else:
+#             return redirect(payment_page)      # Go to Razorpay
+#
+#
+#
+#     return redirect('checkout')
 
 def payment_page(request):
 
@@ -228,107 +232,181 @@ def payment_page(request):
 
     return render(request,"payment.html",{"cart_total":cart_total,"pay_str":amount,"payment":payment})
 
-def place_order(request):
-    if request.method == "POST":
-
-        uname = request.session.get("name")
-        name = request.session.get("name")
-        email = request.session.get("email")
-        phone = request.session.get("phone")
-        address = request.session.get("address")
-        payment = request.session.get("payment")
-        cart_items = CartDbModel.objects.filter(UserName=uname)
-
-        for item in cart_items:
-            OrderModel.objects.create(
-                UserName=uname,
-                Name=name,
-                Food=item.food,
-                Quantity=item.Quantity,
-                Total_Price=item.Total_Price,
-                Email=email,
-                Phone=phone,
-                Address=address,
-                Payment=payment,
-            )
-
-        cart_items.delete()
-
-        return redirect("home")
-
-
+# def place_order(request):
+#     if request.method == "POST":
+#
+#         uname = request.session.get("name")
+#         name = request.POST.get("name")
+#         email = request.POST.get("email")
+#         phone = request.POST.get("phone")
+#         address = request.POST.get("address")
+#         payment = request.POST.get("payment")
+#
+#         cart_items = CartDbModel.objects.filter(UserName=uname)
+#
+#         for item in cart_items:
+#             OrderModel.objects.create(
+#                 UserName=uname,
+#                 Name=name,
+#                 Food=item.food,
+#                 Quantity=item.Quantity,
+#                 Total_Price=item.Total_Price,
+#                 Email=email,
+#                 Phone=phone,
+#                 Address=address,
+#                 Payment=payment
+#             )
+#
+#         cart_items.delete()
+#
+#         return redirect("home")
 def book_table(request):
+
     tables = TableDB.objects.filter(active="Yes")
+    print("Table ID:", request.POST.get("table"))
+    print(TableDB.objects.all())
 
-    return render(request, "book_table.html", {
-        "tables": tables
-    })
-
-def save_booking(request):
     if request.method == "POST":
 
-        table_id = request.POST.get("table")
-        customer = request.POST.get("customer")
+        customer_name = request.POST.get("customer_name")
         phone = request.POST.get("phone")
-        date = request.POST.get("date")
-        time = request.POST.get("time")
-        members = request.POST.get("members")
+        email = request.POST.get("email")
 
-        table = TableDB.objects.get(id=table_id)
+        booking_date = request.POST.get("booking_date")
+        booking_time = request.POST.get("booking_time")
+        guests = request.POST.get("guests")
+        table_id = request.POST.get("table")
 
-        TableBooking.objects.create(
-            UserName=request.session.get("name"),
-            Table=table,
-            Customer_Name=customer,
-            Phone=phone,
-            Booking_Date=date,
-            Booking_Time=time,
-            Members=members
+        # Check whether table already booked
+        already_booked = BookingDB.objects.filter(
+            table_id=table_id,
+            booking_date=booking_date,
+            booking_time=booking_time,
+            status="Booked"
+        ).exists()
+
+        if already_booked:
+            return render(request, "book_table.html", {
+                "tables": tables,
+                "error": "Selected table is already booked."
+            })
+
+        BookingDB.objects.create(
+            customer_name=customer_name,
+            phone=phone,
+            email=email,
+            booking_date=booking_date,
+            booking_time=booking_time,
+            guests=guests,
+            table_id=table_id
         )
 
-        table.active = "Booked"
-        table.save()
+        return redirect("booking_success")
 
-    return redirect("book_table")
-
-
-
-
-
-
-
-
-
-# def book_table(request):
-#     if request.method == "POST":
-#         name = request.POST.get("name")
-#         phone = request.POST.get("phone")
-#         email = request.POST.get("email")
-#         date = request.POST.get("date")
-#         time = request.POST.get("time")
-#         guests = int(request.POST.get("guests"))
-#         request_note = request.POST.get("request")
-#
-#         table = TableDB.objects.filter(active="yes")
-#
-#
-#         # Find an available table
-#
-#         Reservation.objects.create(
-#             customer_name=name,
-#             phone=phone,
-#             email=email,
-#             guests=guests,
-#             reservation_date=date,
-#             reservation_time=time,
-#             table=table,
-#             special_request=request_note,
-#             status="Pending"
-#             )
-#     return render(request,'book_table.html')
+    return render(request, "book_table.html", {"tables": tables})
 
 def booking_success(request):
-    return render(request, "booking_success.html")
+    return render(request, "book_table_success.html")
+def payment(request):
+    if request.method == "POST":
+
+        request.session['name'] = request.POST.get('name')
+        request.session['email'] = request.POST.get('email')
+        request.session['phone'] = request.POST.get('phone')
+        request.session['address'] = request.POST.get('address')
+        request.session['payment'] = request.POST.get('payment')
+
+        payment_method = request.POST.get("payment")
+
+        if payment_method == "Cash on Delivery":
+            return redirect("place_order")
+        else:
+            return redirect("payment_page")
+
+    return redirect("checkout")
+
+# def place_order(request):
+#
+#     uname = request.session.get("name")
+#     name = request.session.get("name")
+#     email = request.session.get("email")
+#     phone = request.session.get("phone")
+#     address = request.session.get("address")
+#     payment = request.session.get("payment")
+#
+#     cart_items = CartDbModel.objects.filter(UserName=uname)
+#
+#     for item in cart_items:
+#         OrderModel.objects.create(
+#             UserName=uname,
+#             Name=name,
+#             Food=item.food,
+#             Quantity=item.Quantity,
+#             Total_Price=item.Total_Price,
+#             Email=email,
+#             Phone=phone,
+#             Address=address,
+#             Payment=payment
+#         )
+#
+#     cart_items.delete()
+#
+#     return redirect("home")
+
+
+
+
+def place_order(request):
+
+    uname = request.session.get("name")
+    name = request.session.get("name")
+    email = request.session.get("email")
+    phone = request.session.get("phone")
+    address = request.session.get("address")
+    payment = request.session.get("payment")
+
+
+    cart_items = CartDbModel.objects.filter(UserName=uname)
+
+    grand_total = sum(item.Total_Price for item in cart_items)
+
+    # Create one order
+    order = OrderModel.objects.create(
+        UserName=uname,
+        Name=name,
+        Email=email,
+        Phone=phone,
+        Address=address,
+        Payment=payment,
+        Grand_Total=grand_total
+    )
+
+    # Create one order item for each cart item
+    for item in cart_items:
+        OrderItem.objects.create(
+            Order=order,
+            Food=item.food,
+            Quantity=item.Quantity,
+            Total_Price=item.Total_Price
+        )
+
+    cart_items.delete()
+
+    return redirect("home")
+
+
+
+def my_orders(request):
+    uname=request.session.get('name')
+    print("name is ::::::::::",uname)
+    orders = OrderModel.objects.filter(UserName="sajisha")
+    print(orders)
+
+    return render(request,'My_orders.html',{'orders':orders})
+
+
+
+
 
 
 

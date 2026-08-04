@@ -21,16 +21,24 @@
         </tr>
     </thead>
 
+
+
     <tbody>
         {% for order in orders %}
         <tr>
             <td>{{ order.id }}</td>
             <td>{{ order.UserName }}</td>
-            <td>₹{{ order.Total_Amount }}</td>
-            <td>{{ order.Payment_Method }}</td>
+            <td>₹{{ order.Grand_Total }}</td>
+            <td>{{ order.Payment }}</td>
             <td>{{ order.Payment_Status }}</td>
             <td>{{ order.Order_Status }}</td>
-            <td>{{ order.Created_At }}</td>
+            <td>{{ order.Ordered_Date }}</td>
+             <td>
+                <a href="{% url 'order_details' order.id %}"
+                   class="btn btn-primary btn-sm">
+                    View
+                </a>
+            </td>
         </tr>
         {% empty %}
         <tr>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'dashboard.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container-fluid">
+
+  <h3>Order #{{ order.id }}</h3>
+
+<p><strong>Customer:</strong> {{ order.Name }}</p>
+<p><strong>Email:</strong> {{ order.Email }}</p>
+<p><strong>Phone:</strong> {{ order.Phone }}</p>
+<p><strong>Address:</strong> {{ order.Address }}</p>
+<p><strong>Payment:</strong> {{ order.Payment }}</p>
+
+<table class="table table-bordered">
+    <thead class="table-primary">
+        <tr>
+            <th>Food</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <td>{{ item.Food.food_name }}</td>
+            <td>{{ item.Quantity }}</td>
+            <td>₹{{ item.Total_Price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="text-end">
+    Grand Total: ₹{{ order.Grand_Total }}
+</h4>
+
+
+</div>
+<div class="mt-3">
+    <a href="#" class="btn btn-primary">
+        Update Order
+    </a>
+
+    <a href="{% url 'cancel_order' order.id %}"
+       class="btn btn-danger"
+       onclick="return confirm('Are you sure you want to cancel this order?');">
+        Cancel Order
+    </a>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+        {% if i.tags == 'success' %}
+            <script>
+                swal('{{ i }}', '', 'success');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{ i }}', '', 'error');
+            </script>
+        {% elif i.tags == 'warning' %}
+            <script>
+                swal('{{ i }}', '', 'warning');
+            </script>
+        {% else %}
+            <script>
+                swal('{{ i }}', '', 'info');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>
+{% endblock %}

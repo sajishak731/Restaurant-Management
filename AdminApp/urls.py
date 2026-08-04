@@ -29,11 +29,21 @@ urlpatterns = [
     path('Staff_Delete/<int:c_id>', views.Staff_Delete, name="Staff_Delete"),
 
     path("view_orders/", views.view_orders, name="view_orders"),
-    path("Table_Add/", views.table_add, name="Table_Add"),
+    path("order_details/<int:order_id>/", views.order_details, name="order_details"),
+    path("cancel_order/<int:order_id>/", views.cancel_order, name="cancel_order"),
+
+
+
+    path("Table_Add/", views.Table_Add, name="Table_Add"),
     path("table_save/", views.table_save, name="table_save"),
     path("table_view/", views.table_view, name="table_view"),
     path("table_update/<int:t_id>", views.table_update, name="table_update"),
     path('table_Edit/<int:t_id>', views.table_Edit, name="table_Edit"),
     path('Table_Delete/<int:t_id>', views.Table_Delete, name="Table_Delete"),
+
+    path("view_reservation/", views.view_reservation, name="view_reservation"),
+    path("edit_booking/<int:id>/", views.edit_booking, name="edit_booking"),
+    path("delete_booking/<int:id>/", views.delete_booking, name="delete_booking"),
+
 
 ]

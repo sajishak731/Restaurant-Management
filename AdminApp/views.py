@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from AdminApp.models import CategoryDb, FoodDb, StaffDb, TableDB
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
@@ -174,7 +174,7 @@ def view_orders(request):
     return render(request, "Order_view.html", context)
 
 
-def table_add(request):
+def Table_Add(request):
     return render(request,'Table_Add.html')
 
 
@@ -209,10 +209,77 @@ def Table_Delete(request,t_id):
     messages.success(request, "Staff Deleted successfully!")
     return redirect(table_view)
 
+def view_reservation(request):
+
+    bookings = BookingDB.objects.all().order_by("-booking_date", "-booking_time")
+
+    return render(request, "Reservations_view.html", {"bookings": bookings})
 
 
+def edit_booking(request, id):
+
+    booking = get_object_or_404(BookingDB, id=id)
+    tables = TableDB.objects.filter(active="Yes")
+
+    if request.method == "POST":
+
+        booking.customer_name = request.POST.get("customer_name")
+        booking.phone = request.POST.get("phone")
+        booking.email = request.POST.get("email")
+        booking.booking_date = request.POST.get("booking_date")
+        booking.booking_time = request.POST.get("booking_time")
+        booking.guests = request.POST.get("guests")
+        booking.status = request.POST.get("status")
+
+        table_id = request.POST.get("table")
+        booking.table = get_object_or_404(TableDB, id=table_id)
+
+        booking.save()
+
+        return redirect("view_reservation")
+
+    return render(request, "Reservation_Edit.html", {
+        "booking": booking,
+        "tables": tables
+    })
 
 
+def delete_booking(request, id):
+
+    booking = get_object_or_404(BookingDB, id=id)
+    booking.delete()
+    return redirect("view_reservation")
+
+
+def view_orders(request):
+    orders = OrderModel.objects.all().order_by("-id")
+    context = {
+        "orders": orders,
+
+    }
+
+    return render(request, "Order_view.html", context)
+
+def order_details(request, order_id):
+    order = get_object_or_404(OrderModel, id=order_id)
+
+    items = OrderItem.objects.filter(Order=order)
+
+    context = {
+        "order": order,
+        "items": items,
+    }
+
+    return render(request, "Order_Details.html", context)
+
+def cancel_order(request, order_id):
+    order = OrderModel.objects.get(id=order_id)
+
+    order.Order_Status = "Cancelled"
+    order.save()
+
+    messages.success(request, "Order cancelled successfully.")
+    return redirect("view_orders")
 
 
 

@@ -5,6 +5,7 @@ from WebApp import views
 urlpatterns= [
     path('home/',views.home,name="home"),
     path('about/', views.about, name="about"),
+    path("my_orders/", views.my_orders, name="my_orders"),
 
     path('loginpage/', views.loginpage, name="loginpage"),
     path('user_sign_up/', views.user_sign_up, name="user_sign_up"),
@@ -20,6 +21,8 @@ urlpatterns= [
     path("payment/", views.payment, name="payment"),
     path('payment_page/',views.payment_page,name="payment_page"),
 
+    # path("book_table/", views.book_table, name="book_table"),
     path("book_table/", views.book_table, name="book_table"),
+    path("booking_success/", views.booking_success, name="booking_success"),
 
 ]

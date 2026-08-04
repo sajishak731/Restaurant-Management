@@ -1,5 +1,6 @@
 from django.db import models
-from AdminApp.models import FoodDb
+from AdminApp.models import FoodDb, TableDB
+
 
 # Create your models here.
 
@@ -11,13 +12,6 @@ class CustomerDb(models.Model):
     password = models.CharField(max_length=100, blank=True, null=True)
 
 
-# class CartDb(models.Model):
-#     UserName=models.CharField(max_length=100,blank=True,null=True)
-#     food_name=models.CharField(max_length=100,blank=True,null=True)
-#     Quantity=models.IntegerField(blank=True,null=True)
-#     Price=models.IntegerField(blank=True,null=True)
-#     Total_Price=models.IntegerField(blank=True,null=True)
-#     food_image=models.ImageField(upload_to="cart images",null=True,blank=True)
 
 class CartDbModel(models.Model):
     UserName = models.CharField(max_length=100)
@@ -27,32 +21,19 @@ class CartDbModel(models.Model):
 
 class OrderModel(models.Model):
     UserName = models.CharField(max_length=100)
-    Name=models.CharField(max_length=100,blank=True,null=True)
-    Food = models.ForeignKey(FoodDb, on_delete=models.CASCADE)
-    Quantity = models.PositiveIntegerField()
-    Total_Price = models.IntegerField()
+    Name = models.CharField(max_length=100)
     Email = models.EmailField()
     Phone = models.CharField(max_length=15)
     Address = models.TextField()
     Payment = models.CharField(max_length=50)
-
+    Grand_Total = models.IntegerField()
     Ordered_Date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.UserName
-
-#
-# class OrderDb(models.Model):
-#     First_Name=models.CharField(max_length=100,blank=True,null=True)
-#     Last_Name=models.CharField(max_length=100,blank=True,null=True)
-#     Email=models.CharField(max_length=100,blank=True,null=True)
-#     Place=models.CharField(max_length=100,blank=True,null=True)
-#     Address=models.CharField(max_length=500,blank=True,null=True)
-#     Mobile=models.CharField(max_length=100,blank=True,null=True)
-#     State=models.CharField(max_length=100,blank=True,null=True)
-#     Pin=models.CharField(max_length=100,blank=True,null=True)
-#     Total_Price=models.IntegerField(blank=True,null=True)
-#     UserName=models.CharField(max_length=100,blank=True,null=True)
+class OrderItem(models.Model):
+    Order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
+    Food = models.ForeignKey(FoodDb, on_delete=models.CASCADE)
+    Quantity = models.IntegerField()
+    Total_Price = models.IntegerField()
 
 
 class RegistrationDb(models.Model):
@@ -61,30 +42,28 @@ class RegistrationDb(models.Model):
     password =models.CharField(max_length=100, blank=True, null=True)
     confirm_password =models.CharField(max_length=100, blank=True, null=True)
 
-class Table(models.Model):
-    table_number = models.IntegerField(unique=True)
-    capacity = models.IntegerField()
 
-    def __str__(self):
-        return f"Table {self.table_number}"
 
-class Reservation(models.Model):
-    STATUS = [
-        ('Pending', 'Pending'),
-        ('Confirmed', 'Confirmed'),
-        ('Cancelled', 'Cancelled'),
-        ('Completed', 'Completed'),
+class BookingDB(models.Model):
+    STATUS_CHOICES = [
+        ("Booked", "Booked"),
+        ("Confirmed", "Confirmed"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
     ]
-
     customer_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
-    email = models.EmailField(blank=True)
-    guests = models.PositiveIntegerField()
-    reservation_date = models.DateField()
-    reservation_time = models.TimeField()
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=STATUS, default='Pending')
-    special_request = models.TextField(blank=True)
+    booking_date = models.DateField()
+    booking_time = models.TimeField()
+    guests = models.IntegerField()
+    table = models.ForeignKey(TableDB, on_delete=models.CASCADE)
+    email = models.EmailField()
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="Booked"
+    )
 
     def __str__(self):
-        return f"{self.customer_name} - Table {self.table.table_number}"
+        return self.customer_name
+

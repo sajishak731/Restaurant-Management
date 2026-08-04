@@ -74,9 +74,9 @@
         </a>
         <div id="collapseBootstrap2" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">Add Tables</a>
+            <a class="collapse-item" href="{% url 'Table_Add' %}">Add Tables</a>
             <a class="collapse-item" href="#">Edit Tables</a>
-            <a class="collapse-item" href="#">View Tables</a>
+            <a class="collapse-item" href="{% url 'table_view' %}">View Tables</a>
 
           </div>
         </div>
@@ -89,7 +89,7 @@
         </a>
         <div id="collapseBootstrap3" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">View All  Orders</a>
+            <a class="collapse-item" href="{% url 'view_orders' %}">View All  Orders</a>
             <a class="collapse-item" href="#">Update Order Status</a>
             <a class="collapse-item" href="#">Cancel Orders </a>
 
@@ -104,7 +104,7 @@
         </a>
         <div id="collapseBootstrap4" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">View all reservation</a>
+            <a class="collapse-item" href="{% url 'view_reservation' %}">View all reservation</a>
           </div>
         </div>
       </li>
