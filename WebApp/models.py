@@ -60,3 +60,31 @@ class RegistrationDb(models.Model):
     email = models.CharField(max_length=100, blank=True, null=True)
     password =models.CharField(max_length=100, blank=True, null=True)
     confirm_password =models.CharField(max_length=100, blank=True, null=True)
+
+class Table(models.Model):
+    table_number = models.IntegerField(unique=True)
+    capacity = models.IntegerField()
+
+    def __str__(self):
+        return f"Table {self.table_number}"
+
+class Reservation(models.Model):
+    STATUS = [
+        ('Pending', 'Pending'),
+        ('Confirmed', 'Confirmed'),
+        ('Cancelled', 'Cancelled'),
+        ('Completed', 'Completed'),
+    ]
+
+    customer_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField(blank=True)
+    guests = models.PositiveIntegerField()
+    reservation_date = models.DateField()
+    reservation_time = models.TimeField()
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS, default='Pending')
+    special_request = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.customer_name} - Table {self.table.table_number}"

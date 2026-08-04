@@ -10,6 +10,7 @@ class CategoryDb(models.Model):
     category_image =models.ImageField(upload_to="category images",null=True,blank=True)
     status = models.CharField(max_length=100,blank=True,null=True)
 
+
 class FoodDb(models.Model):
     category_name = models.CharField(max_length=100, blank=True, null=True)
     food_name = models.CharField(max_length=100, blank=True, null=True)
@@ -28,10 +29,10 @@ class StaffDb(models.Model):
     role = models.CharField(max_length=100, blank=True, null=True)
 
 
-class Table(models.Model):
-    Table_no=models.IntegerField(null=True,blank=True)
+class TableDB(models.Model):
+    Table_no=models.CharField(max_length=100, blank=True, null=True)
     Capacity=models.IntegerField(null=True,blank=True)
-    status = models.CharField(max_length=100,blank=True,null=True)
+    active=models.CharField(max_length=100,blank=True,null=True)
 
 class ReservationDB(models.Model):
     customer_name = models.CharField(max_length=100,blank=True,null=True)
@@ -42,7 +43,14 @@ class ReservationDB(models.Model):
     status = models.CharField(max_length=100,blank=True,null=True)
 
 
-
+class TableBooking(models.Model):
+    UserName = models.CharField(max_length=100)
+    Table_no = models.CharField(max_length=100)
+    Capacity = models.IntegerField()
+    Booking_Date = models.DateField()
+    Booking_Time = models.TimeField()
+    Members = models.IntegerField()
+    Status = models.CharField(max_length=50, default="Booked")
 
 
 

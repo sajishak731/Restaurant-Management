@@ -256,6 +256,173 @@ def place_order(request):
 
         return redirect("home")
 
+
+def book_table(request):
+    tables = TableDB.objects.filter(active="Yes")
+
+    return render(request, "book_table.html", {
+        "tables": tables
+    })
+
+def save_booking(request):
+    if request.method == "POST":
+
+        table_id = request.POST.get("table")
+        customer = request.POST.get("customer")
+        phone = request.POST.get("phone")
+        date = request.POST.get("date")
+        time = request.POST.get("time")
+        members = request.POST.get("members")
+
+        table = TableDB.objects.get(id=table_id)
+
+        TableBooking.objects.create(
+            UserName=request.session.get("name"),
+            Table=table,
+            Customer_Name=customer,
+            Phone=phone,
+            Booking_Date=date,
+            Booking_Time=time,
+            Members=members
+        )
+
+        table.active = "Booked"
+        table.save()
+
+    return redirect("book_table")
+
+
+
+
+
+
+
+
+
+# def book_table(request):
+#     if request.method == "POST":
+#         name = request.POST.get("name")
+#         phone = request.POST.get("phone")
+#         email = request.POST.get("email")
+#         date = request.POST.get("date")
+#         time = request.POST.get("time")
+#         guests = int(request.POST.get("guests"))
+#         request_note = request.POST.get("request")
+#
+#         table = TableDB.objects.filter(active="yes")
+#
+#
+#         # Find an available table
+#
+#         Reservation.objects.create(
+#             customer_name=name,
+#             phone=phone,
+#             email=email,
+#             guests=guests,
+#             reservation_date=date,
+#             reservation_time=time,
+#             table=table,
+#             special_request=request_note,
+#             status="Pending"
+#             )
+#     return render(request,'book_table.html')
+
+def booking_success(request):
+    return render(request, "booking_success.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #
 # def place_order(request):
 #     if request.method == "POST":

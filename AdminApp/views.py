@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
-from AdminApp.models import CategoryDb,FoodDb,StaffDb
+from AdminApp.models import CategoryDb, FoodDb, StaffDb, TableDB
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.files.storage import FileSystemStorage
+from WebApp.models import *
 
 
 # Create your views here.
@@ -162,6 +163,51 @@ def Staff_Update(request,s_id):
                     profile_image=file,staff_Address=adress)
     messages.success(request, "Staff Updated successfully!")
     return redirect(Staff_View)
+
+def view_orders(request):
+    orders = OrderModel.objects.all().order_by('-id')
+
+    context = {
+        "orders": orders
+    }
+
+    return render(request, "Order_view.html", context)
+
+
+def table_add(request):
+    return render(request,'Table_Add.html')
+
+
+def table_save(request):
+    if request.method == "POST":
+        t_num = request.POST.get('tnum')
+        t_capacity = request.POST.get('capacity')
+        t_active=request.POST.get('active')
+
+        obj=TableDB(Table_no=t_num,Capacity=t_capacity,active=t_active)
+        obj.save()
+    return redirect(table_add)
+
+def table_view(request):
+    data =TableDB.objects.all()
+    return render(request,'Table_view.html',{'data':data})
+
+def table_Edit(request,t_id):
+    data = TableDB.objects.get(id=t_id)
+    return render(request,'Table_Edit.html',{'data':data})
+def table_update(request,t_id):
+    t_num = request.POST.get('tnum')
+    t_capacity = request.POST.get('capacity')
+    t_active = request.POST.get('active')
+    TableDB.objects.filter(id=t_id).update(Table_no=t_num,Capacity=t_capacity,active=t_active)
+    messages.success(request, "Table Updated successfully!")
+    return redirect(table_view)
+
+def Table_Delete(request,t_id):
+    data = StaffDb.objects.filter(id =t_id)
+    data.delete()
+    messages.success(request, "Staff Deleted successfully!")
+    return redirect(table_view)
 
 
 

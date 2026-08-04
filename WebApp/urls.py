@@ -17,8 +17,9 @@ urlpatterns= [
     path('view_cart/',views.view_cart,name="view_cart"),
     path('checkout/', views.checkout, name="checkout"),
     path("place_order/", views.place_order, name="place_order"),
-
     path("payment/", views.payment, name="payment"),
     path('payment_page/',views.payment_page,name="payment_page"),
+
+    path("book_table/", views.book_table, name="book_table"),
 
 ]

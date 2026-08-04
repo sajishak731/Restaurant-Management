@@ -28,4 +28,12 @@ urlpatterns = [
 
     path('Staff_Delete/<int:c_id>', views.Staff_Delete, name="Staff_Delete"),
 
+    path("view_orders/", views.view_orders, name="view_orders"),
+    path("Table_Add/", views.table_add, name="Table_Add"),
+    path("table_save/", views.table_save, name="table_save"),
+    path("table_view/", views.table_view, name="table_view"),
+    path("table_update/<int:t_id>", views.table_update, name="table_update"),
+    path('table_Edit/<int:t_id>', views.table_Edit, name="table_Edit"),
+    path('Table_Delete/<int:t_id>', views.Table_Delete, name="Table_Delete"),
+
 ]
