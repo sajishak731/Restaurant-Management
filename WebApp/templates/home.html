@@ -52,8 +52,8 @@
         <nav id="navmenu" class="navmenu">
             <ul>
                 <li><a href="{% url 'home' %}" class="active">Home<br></a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#menu">Menu</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'menu' %}">Menu</a></li>
                 <li><a href="#events">Events</a></li>
                 <li><a href="#chefs">Chefs</a></li>
                 <li><a href="#gallery">Gallery</a></li>
@@ -82,7 +82,36 @@
         </nav>
 
         <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a>
+        <div class="d-flex m-3 me-0">
+                    <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
+                            data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                    {% if request.session.name %}
 
+                    <a href="#" class="position-relative me-4 my-auto">
+                        <i class="fa fa-shopping-bag fa-2x">
+
+                    </i> <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{cart_total}}</span>
+                    </a>
+                    <div class="dropdown my-auto">
+                        <a href="#" class="dropdown-toggle text-primary text-decoration-none" data-bs-toggle="dropdown">
+                            Welcome {{ request.session.name }}</a>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'user_sign_up' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+
+                    {% else %}
+
+                    <a href="{% url 'user_sign_up' %}" class="my-auto">
+                        <i class="fas fa-user fa-2x"></i>
+                    </a>
+                    {% endif %}
+
+
+    </div>
     </div>
 </header>
 
@@ -560,6 +589,7 @@
 
     </section><!-- /Testimonials Section -->
 
+
     <!-- Events Section -->
     <section id="events" class="events section">
 
@@ -1027,7 +1057,6 @@
 <!-- Scroll Top -->
 <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
-
 <!-- Preloader -->
 <div id="preloader"></div>
 
@@ -1041,6 +1070,8 @@
 
 <!-- Main JS File -->
 <script src="{% static 'web/assets/js/main.js' %}"></script>
+<script>
+</script>
 
 </body>
 

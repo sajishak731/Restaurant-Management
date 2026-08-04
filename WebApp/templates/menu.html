@@ -39,7 +39,7 @@
 </head>
 <body class="menu-page">
 
-<header id="header" class="header d-flex align-items-center sticky-top"f>
+<header id="header" class="header d-flex align-items-center sticky-top" f>
     <div class="container position-relative d-flex align-items-center justify-content-between">
 
         <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -51,7 +51,7 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="{% url 'home' %}" >Home<br></a></li>
+                <li><a href="{% url 'home' %}">Home<br></a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="{% url 'menu' %}" class="active">Menu</a></li>
                 <li><a href="#events">Events</a></li>
@@ -83,168 +83,209 @@
 
         <a class="btn-getstarted" href="#">Book a Table</a>
         <a class="btn-viewcart" href="#">
-    <i class="bi bi-cart3"></i> View Cart</a>
+            <i class="bi bi-cart3"></i> View Cart</a>
+                <div class="d-flex m-3 me-0">
+                    <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
+                            data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
+                    {% if request.session.name %}
+
+                    <a href="#" class="position-relative me-4 my-auto">
+                        <i class="fa fa-shopping-bag fa-2x">
+
+                    </i> <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{cart_total}}</span>
+                    </a>
+                    <div class="dropdown my-auto">
+                        <a href="#" class="dropdown-toggle text-primary text-decoration-none" data-bs-toggle="dropdown">
+                            Welcome {{ request.session.name }}</a>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'user_sign_up' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+
+                    {% else %}
+
+                    <a href="{% url 'user_sign_up' %}" class="my-auto">
+                        <i class="fas fa-user fa-2x"></i>
+                    </a>
+                    {% endif %}
+
+
+    </div>
+
 
 
     </div>
 </header>
-    <!-- Hero Section -->
+<!-- Hero Section -->
 
 
-    <!-- Menu Section -->
-    <section id="menu" class="menu section">
+<!-- Menu Section -->
+<section id="menu" class="menu section">
 
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-<!--            <h2>Our Menu</h2>-->
-            <p><span>Check Our</span> <span class="description-title"> Menu</span></p>
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <!--            <h2>Our Menu</h2>-->
+        <p><span>Check Our</span> <span class="description-title"> Menu</span></p>
+    </div>
+    <!-- End Section Title -->
+
+    <div class="container">
+
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+
+            <li class="nav-item">
+                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
+                    <h4>Starters</h4>
+                </a>
+            </li><!-- End tab nav item -->
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
+                    <h4>Main Course</h4>
+                </a><!-- End tab nav item -->
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
+                    <h4>Desserts</h4>
+                </a>
+            </li><!-- End tab nav item -->
+
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
+                    <h4>Drinks</h4>
+                </a>
+            </li><!-- End tab nav item -->
+
+        </ul>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="tab-pane fade active show" id="menu-starters">
+
+                <div class="tab-header text-center">
+                    <p>Menu</p>
+                    <h3>Starters</h3>
+                </div>
+
+                <div class="row gy-5">
+                    {% for m in starters %}
+
+                    <div class="col-lg-4 menu-item">
+                        <a href="{{m.food_image.url}}" class="glightbox">
+                            <img src="{{m.food_image.url}}" class="menu-img img-fluid" alt=""></a>
+                        <h4>{{m.food_name}}</h4>
+                        <p class="ingredients">
+                            {{m.description}}
+                        </p>
+                        <p class="price">
+                            RS.{{m.price}}
+                        </p>
+
+                      <button type="button"
+        onclick="addCart('{{m.food_name}}', {{m.price}}, '{{m.description}}', '{{m.food_image.url}}')"
+        class="btn px-4 py-2 mt-2"
+        style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white; border:none; border-radius:10px;">
+    Add to Cart
+</button>
+
+
+                    </div><!-- Menu Item -->
+                    {% endfor %}
+
+                    <!-- Menu Item -->
+
+                </div>
+            </div><!-- End Starter Menu Content -->
+
+            <div class="tab-pane fade" id="menu-breakfast">
+
+                <div class="tab-header text-center">
+                    <p>Menu</p>
+                    <h3>Main Course</h3>
+                </div>
+
+
+                <div class="row gy-5">
+                    {% for m in Course %}
+                    <div class="col-lg-4 menu-item">
+                        <img src="{{ m.food_image.url }}" class="menu-img img-fluid" alt="" width="300px"
+                             height="300px"></a>
+                        <h4>{{m.food_name}}</h4>
+                        <p class="ingredients">{{m.description}}</p>
+                        <p class="price">{{m.price}}</p>
+
+                        <button type="button" onclick="addCart('{{m.food_name}}','{{m.price}}','{{m.description}}','{{m.food_image.url}}'); return false;"
+                                class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white; border:none; border-radius:10px;">Add to cart</button>
+
+
+                    </div><!-- Menu Item -->
+                    {% endfor %}
+
+
+                </div>
+            </div><!-- End Breakfast Menu Content -->
+
+            <div class="tab-pane fade" id="menu-lunch">
+
+                <div class="tab-header text-center">
+                    <p>Menu</p>
+                    <h3>Desserts</h3>
+                </div>
+
+                <div class="row gy-5">
+                    {% for i in Desserts %}
+                    <div class="col-lg-4 menu-item">
+                        <img src="{{i.food_image.url }}" class="menu-img img-fluid"
+                             alt=""></a>
+                        <h4>{{i.food_name}}</h4>
+                        <p class="ingredients">{{i.description}}</p>
+                        <p class="price">{{i.price}}</p>
+
+
+                        <button type="button" onclick="addCart('{{i.food_name}}','{{i.price}}','{{i.description}}','{{i.food_image.url}}'); return false;"
+                                class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white; border:none; border-radius:10px;">Add to cart</button>
+
+
+                    </div>
+                    {% endfor %}<!-- Menu Item -->
+                </div>
+            </div><!-- End Desserts Menu Content -->
+
+            <div class="tab-pane fade" id="menu-dinner">
+
+                <div class="tab-header text-center">
+                    <p>Menu</p>
+                    <h3>Drinks</h3>
+                </div>
+
+                <div class="row gy-5">
+                    {% for i in Drinks %}
+                    <div class="col-lg-4 menu-item">
+                        <img src="{{i.food_image.url }}" class="menu-img img-fluid" alt="" width="400px" height="400px">
+                        <h4>{{i.food_name}}</h4>
+                        <p class="ingredients">{{i.description}}
+                        </p>
+                        <p class="price">{{i.price}}</p>
+                        <button type="button" onclick="addCart({{i.id}},'{{i.food_name}}', '{{i.price}}','{{i.description}}','{{i.food_image.url}}'); return false;"
+                                class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white; border:none; border-radius:10px;">Add to cart</button>
+
+                    </div>
+                    <!-- Menu Item -->
+                    {% endfor %}
+
+
+                </div>
+            </div><!-- End Drinks Menu Content -->
+
         </div>
-        <!-- End Section Title -->
 
-        <div class="container">
+    </div>
 
-            <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-
-                <li class="nav-item">
-                    <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-starters">
-                        <h4>Starters</h4>
-                    </a>
-                </li><!-- End tab nav item -->
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
-                        <h4>Main Course</h4>
-                    </a><!-- End tab nav item -->
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
-                        <h4>Desserts</h4>
-                    </a>
-                </li><!-- End tab nav item -->
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
-                        <h4>Drinks</h4>
-                    </a>
-                </li><!-- End tab nav item -->
-
-            </ul>
-
-            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
-
-                <div class="tab-pane fade active show" id="menu-starters">
-
-                    <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Starters</h3>
-                    </div>
-
-                    <div class="row gy-5">
-                        {% for m in starters %}
-
-                        <div class="col-lg-4 menu-item">
-                            <a href="{{m.food_image.url}}" class="glightbox">
-                                <img src="{{m.food_image.url}}" class="menu-img img-fluid" alt=""></a>
-                            <h4>{{m.food_name}}</h4>
-                            <p class="ingredients">
-                                {{m.description}}
-                            </p>
-                            <p class="price">
-                                RS.{{m.price}}
-                            </p>
-                            <a href="#" onclick="addCart('{{m.food_name}}', {{m.price}}); return false;"
-                               class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white;
-                               border:none; border-radius:10px;">Add to Cart</a>
-
-
-                        </div><!-- Menu Item -->
-                        {% endfor %}
-
-                        <!-- Menu Item -->
-
-                    </div>
-                </div><!-- End Starter Menu Content -->
-
-                <div class="tab-pane fade" id="menu-breakfast">
-
-                    <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Main Course</h3>
-                    </div>
-
-
-
-                                        <div class="row gy-5">
-                                            {% for m in Course %}
-                                            <div class="col-lg-4 menu-item">
-                                                  <img src="{{ m.food_image.url }}" class="menu-img img-fluid" alt="" width="300px" height="300px"></a>
-                                                <h4>{{m.food_name}}</h4>
-                                                <p class="ingredients">{{m.description}}</p>
-                                                <p class="price">{{m.price}}</p>
-                                                 <a href="#" onclick="addCart('{{m.food_name}}', {{m.price}}); return false;"
-                               class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white;
-                               border:none; border-radius:10px;">Add to Cart</a>
-                                            </div><!-- Menu Item -->
-                                            {% endfor %}
-
-
-                                        </div>
-                </div><!-- End Breakfast Menu Content -->
-
-                <div class="tab-pane fade" id="menu-lunch">
-
-                    <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Desserts</h3>
-                    </div>
-
-                    <div class="row gy-5">
-                      {% for i in Desserts %}
-                          <div class="col-lg-4 menu-item">
-                              <img src="{{i.food_image.url }}" class="menu-img img-fluid"
-                                    alt=""></a>
-                            <h4>{{i.food_name}}</h4>
-                            <p class="ingredients">{{i.description}}</p>
-                            <p class="price">{{i.price}}</p>
-                               <a href="#" onclick="addCart('{{m.food_name}}', {{m.price}}); return false;"
-                               class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white;
-                               border:none; border-radius:10px;">Add to Cart</a>
-                        </div>
-                      {% endfor %}<!-- Menu Item -->
-                    </div>
-                </div><!-- End Desserts Menu Content -->
-
-                <div class="tab-pane fade" id="menu-dinner">
-
-                    <div class="tab-header text-center">
-                        <p>Menu</p>
-                        <h3>Drinks</h3>
-                    </div>
-
-                    <div class="row gy-5">
-                      {% for i in Drinks %}
-                            <div class="col-lg-4 menu-item">
-                              <img src="{{i.food_image.url }}" class="menu-img img-fluid" alt="" width="400px" height="400px">
-                            <h4>{{i.food_name}}</h4>
-                            <p class="ingredients">{{i.description}}
-                            </p>
-                            <p class="price">{{i.price}}</p>
-                                 <a href="#" onclick="addCart('{{m.food_name}}', {{m.price}}); return false;"
-                               class="btn px-4 py-2 mt-2" style="background:linear-gradient(90deg,#ff6a00,#ee0979); color:white;
-                               border:none; border-radius:10px;">Add to Cart</a>
-                        </div><!-- Menu Item -->
-                        {% endfor %}
-
-
-                    </div>
-                </div><!-- End Drinks Menu Content -->
-
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 
 </main>
@@ -318,43 +359,143 @@
 
 <!-- Preloader -->
 <div id="preloader"></div>
-<div class="modal fade" id="cartModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+<div>
+    <!--   <div class="modal fade" id="cartModal" tabindex="-1">-->
+    <!--    <div class="modal-dialog modal-dialog-centered">-->
+    <!--        <div class="modal-content">-->
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="foodName"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!--            <div class="modal-header">-->
+    <!--                <h5 class="modal-title" id="foodName"></h5>-->
+    <!--                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+    <!--            </div>-->
+
+    <!--            <div class="modal-body">-->
+
+    <!--                <div class="d-flex justify-content-between align-items-center">-->
+
+    <!--                    &lt;!&ndash; Quantity &ndash;&gt;-->
+    <!--                    <div class="d-flex align-items-center border rounded overflow-hidden">-->
+
+    <!--                        <button class="btn btn-light" onclick="decrease()">-</button>-->
+
+    <!--                        <span id="qty" class="px-4 fw-bold">1</span>-->
+
+    <!--                        <button class="btn btn-light" onclick="increase()">+</button>-->
+
+    <!--                    </div>-->
+
+    <!--                    &lt;!&ndash; Price &ndash;&gt;-->
+    <!--                    <button class="btn btn-success px-4">-->
+    <!--                        Add to Cart |-->
+    <!--                        ₹<span id="totalPrice"></span>-->
+    <!--                    </button>-->
+
+    <!--                </div>-->
+
+    <!--            </div>-->
+
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+
+</div>
+
+
+
+<div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        {% if request.session.name %}
+
+        <form class="forms-sample" method="post" action="{% url 'save_cart_items' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+               <input type="hidden" id="foodId" name="foodId">
+            <input type="hidden" id="quantityInput" name="quantity">
+
+            <div class="modal-content rounded-4 shadow">
+
+
+            <div class="modal-header border-0">
+                <button class="btn-close ms-auto" data-bs-dismiss="modal"></button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body px-4 pb-4">
 
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="row align-items-center">
 
-                    <!-- Quantity -->
-                    <div class="d-flex align-items-center border rounded overflow-hidden">
+                    <div class="col-md-3 text-center">
+                        <img id="foodImage" src="" class="img-fluid rounded-circle border border-3" style="width:140px;height:140px;object-fit:cover;">
+                    </div>
 
-                        <button class="btn btn-light" onclick="decrease()">-</button>
+                    <div class="col-md-9">
 
-                        <span id="qty" class="px-4 fw-bold">1</span>
+                        <h2 id="foodName" class="fw-bold"></h2>
 
-                        <button class="btn btn-light" onclick="increase()">+</button>
+                        <p class="text-success mb-1">
+                            <i class="bi bi-patch-check-fill"></i> Available
+                        </p>
+
+                        <p id="foodDescription" class="text-muted"></p>
 
                     </div>
 
-                    <!-- Price -->
-                    <button class="btn btn-success px-4">
-                        Add to Cart |
-                        ₹<span id="totalPrice"></span>
-                    </button>
+                </div>
+
+                <hr>
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-5">
+                        <small class="text-muted">Price</small>
+                        <h2 class="text-danger fw-bold">
+                            ₹<span id="foodPrice"></span>
+                        </h2>
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <small class="text-muted">Quantity</small>
+
+                        <div class="input-group mt-2">
+
+                            <button type="button" onclick="increase()">+</button>
+
+
+                            <input id="qty" class="form-control text-center" value="1" readonly>
+                            <button type="button" onclick="decrease()">-</button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <button type="submit" class="btn w-100 text-white py-3"
+                                style="background:linear-gradient(90deg,#ff6a00,#ee0979);">
+
+                            <i class="bi bi-cart3"></i>
+
+                            Add To Cart |
+
+                            ₹<span id="totalPrice"></span>
+
+                        </button>
+
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
+        </form>
+        {% else %}
+          <a href="{% url 'user_sign_in' %}" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill" type="submit">please login</a>
+        {% endif %}
+
     </div>
 </div>
+
 
 <!-- Vendor JS Files -->
 <script src="{% static 'web/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -369,29 +510,46 @@
 
 
 <script>
-function addCart() {
-    let qty = prompt("Enter Quantity:", 1);
+<!--    function addCart() {-->
+<!--        let qty = prompt("Enter Quantity:", 1);-->
 
-    if (qty !== null && qty > 0) {
-        alert(qty + " item(s) added to cart.");
-    }
-}
+<!--        if (qty !== null && qty > 0) {-->
+<!--            alert(qty + " item(s) added to cart.");-->
+<!--        }-->
+<!--    }-->
 </script>
 
 <script>
-let quantity = 1;
+
+    let quantity = 1;
 let price = 0;
 
-function addCart(name, itemPrice){
+
+function addCart(id,name,itemPrice,description,image){
+
+
+ console.log({
+        id,
+        name,
+        itemPrice,
+        description,
+        image
+    });
 
     quantity = 1;
     price = itemPrice;
 
-    document.getElementById("foodName").innerHTML = name;
+    document.getElementById("foodId").value = id;
+    document.getElementById("quantityInput").value = quantity;   // <-- Add this
+
+    document.getElementById("foodName").innerHTML=name;
+    document.getElementById("foodDescription").innerHTML=description;
+    document.getElementById("foodImage").src=image;
+    document.getElementById("foodPrice").innerHTML=itemPrice;
+
     update();
 
-    var modal = new bootstrap.Modal(document.getElementById('cartModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('cartModal')).show();
 }
 
 function increase(){
@@ -400,16 +558,85 @@ function increase(){
 }
 
 function decrease(){
-    if(quantity > 1){
+    if(quantity>1){
         quantity--;
         update();
     }
 }
 
 function update(){
-    document.getElementById("qty").innerHTML = quantity;
-    document.getElementById("totalPrice").innerHTML = quantity * price;
+
+    document.getElementById("quantityInput").value = quantity;   // <-- Add this
+
+    document.getElementById("totalPrice").innerHTML=
+        quantity*price;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    -->
+<!--    let quantity = 1;-->
+<!--    let price = 0;-->
+
+<!--    function addCart(name, itemPrice){-->
+
+<!--        quantity = 1;-->
+<!--        price = itemPrice;-->
+
+<!--        document.getElementById("foodName").innerHTML = name;-->
+<!--        update();-->
+
+<!--        var modal = new bootstrap.Modal(document.getElementById('cartModal'));-->
+<!--        modal.show();-->
+<!--    }-->
+
+<!--    function increase(){-->
+<!--        quantity++;-->
+<!--        update();-->
+<!--    }-->
+
+<!--    function decrease(){-->
+<!--        if(quantity > 1){-->
+<!--            quantity&#45;&#45;;-->
+<!--            update();-->
+<!--        }-->
+<!--    }-->
+
+<!--    function update(){-->
+<!--        document.getElementById("qty").innerHTML = quantity;-->
+<!--        document.getElementById("totalPrice").innerHTML = quantity * price;-->
+<!--    }-->
 </script>
 
 </body>
