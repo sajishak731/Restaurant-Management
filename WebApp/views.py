@@ -80,6 +80,21 @@ def home(request):
 def about(request):
     return render(request,'about.html')
 
+def contact_page(request):
+    return render(request,'Contacts_page.html')
+
+def Send_message(request):
+    if request.method == "POST":
+        Contact.objects.create(
+            name=request.POST.get('name'),
+            email=request.POST.get('email'),
+            subject=request.POST.get('subject'),
+            message=request.POST.get('message')
+        )
+        print("MEssage")
+        messages.success(request, "Your message has been sent successfully.")
+        return redirect('home')
+
 def menu(request):
     menu = FoodDb.objects.all()
     uname = request.session.get('name')
@@ -307,6 +322,9 @@ def book_table(request):
 
 def booking_success(request):
     return render(request, "book_table_success.html")
+def payment_success(request):
+    return render(request,'Payment.success.html')
+
 def payment(request):
     if request.method == "POST":
 
@@ -353,9 +371,6 @@ def payment(request):
 #
 #     return redirect("home")
 
-
-
-
 def place_order(request):
 
     uname = request.session.get("name")
@@ -392,7 +407,7 @@ def place_order(request):
 
     cart_items.delete()
 
-    return redirect("home")
+    return redirect("payment_success")
 
 
 
@@ -405,6 +420,9 @@ def my_orders(request):
     return render(request,'My_orders.html',{'orders':orders})
 
 
+
+
+#book_table success and payment success to design
 
 
 

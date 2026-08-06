@@ -14,6 +14,8 @@
     <!-- Favicons -->
     <link href="{% static 'web/assets/img/favicon.png' %}" rel="icon">
     <link href="{% static 'web/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -46,139 +48,217 @@
             <ul>
                 <li><a href="{% url 'home' %}" class="active">Home<br></a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#events">Events</a></li>
+                <li><a href="{% url 'menu' %}">Menu</a></li>
+                <li><a href="{% url 'contact_page' %}">Contact</a></li>
                 <li><a href="#chefs">Chefs</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li class="dropdown"><a href="#"><span>Dropdown</span> <i
-                        class="bi bi-chevron-down toggle-dropdown"></i></a>
-                    <ul>
-                        <li><a href="#">Dropdown 1</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
-                                class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="#">Deep Dropdown 1</a></li>
-                                <li><a href="#">Deep Dropdown 2</a></li>
-                                <li><a href="#">Deep Dropdown 3</a></li>
-                                <li><a href="#">Deep Dropdown 4</a></li>
-                                <li><a href="#">Deep Dropdown 5</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Dropdown 2</a></li>
-                        <li><a href="#">Dropdown 3</a></li>
-                        <li><a href="#">Dropdown 4</a></li>
-                    </ul>
-                </li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#gallery">Gallery/Reviews</a></li>
+                <li><a href="#events">Events</a></li>
+
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a>
+        <a class="btn-getstarted" href="{% url 'book_table' %}">Book a Table</a>
+        <div class="d-flex m-3 me-0">
+            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4"
+                    data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i>
+            </button>
+            {% if request.session.name %}
+
+            <a href="{% url 'view_cart' %}" class="position-relative me-4 my-auto">
+                <i class="fa fa-shopping-bag fa-2x">
+                    <!--                          <i class="fa-solid fa-cart-shopping fa-2x"></i>-->
+                    <!--                          <i class="fa-solid fa-bag-shopping fa-2x"></i>-->
+
+                </i>
+                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                      style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{cart_total}}</span>
+            </a>
+            <div class="dropdown my-auto">
+                <a href="#" class="dropdown-toggle text-primary text-decoration-none" data-bs-toggle="dropdown">
+                    Welcome {{ request.session.name }}</a>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'user_sign_up' %}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'user_logout' %}">Logout</a></li>
+                </ul>
+            </div>
+
+            {% else %}
+
+            <a href="{% url 'user_sign_up' %}" class="my-auto">
+                <i class="fas fa-user fa-2x"></i>
+            </a>
+            {% endif %}
+
+
+        </div>
+
 
     </div>
 </header>
 
-<div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-7 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-            <img src="{% static 'web/assets/img/about.jpg' %}" class="img-fluid mb-4" alt="">
-            <div class="book-a-table">
-              <h3>Book a Table</h3>
-              <p>+91 7902762514</p>
-            </div>
-          </div>
-          <div class="col-lg-5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="250">
-            <div class="content ps-0 ps-lg-5">
-              <p class="fst-italic">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua.
-              </p>
-              <ul>
-                <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-                <li><i class="bi bi-check-circle-fill"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-                <li><i class="bi bi-check-circle-fill"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-              </ul>
-              <p>
-                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
-              </p>
+<section id="about" class="about section">
 
-              <div class="position-relative mt-4">
-                <img src="assets/img/about-2.jpg" class="img-fluid" alt="">
-                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
-              </div>
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>ABOUT US<br></h2>
+        <p><span>Serving authentic flavors with warmth,</span> <span class="description-title">quality, and tradition since day one.</span></p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="row gy-4">
+            <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'web/assets/img/about.jpg' %}" class="img-fluid mb-4" alt="">
+<!--                <div class="book-a-table">-->
+<!--&lt;!&ndash;                    <h3>Book a Table</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <p>+91 7902762510</p>&ndash;&gt;-->
+<!--                </div>-->
             </div>
-          </div>
+            <div class="col-lg-5" data-aos="fade-up" data-aos-delay="250">
+                <div class="content ps-0 ps-lg-5">
+                    <p class="fst-italic">
+                     Welcome to Dwaraka Restaurant, where great food and warm hospitality come together. We serve a wide variety of freshly prepared dishes,
+                        including traditional Indian favorites, Chinese cuisine, and delicious beverages, all made with quality ingredients and authentic
+                        flavors.
+                    </p>
+                    <ul>
+                        <li><i class="bi bi-check-circle-fill"></i> <span>Freshly prepared meals using quality ingredients.</span>
+                        </li>
+                        <li><i class="bi bi-check-circle-fill"></i> <span>Comfortable dining atmosphere with friendly service.</span>
+                        </li>
+                        <li><i class="bi bi-check-circle-fill"></i> <span>Easy online table reservations and food ordering.</span>
+                        </li>
+                    </ul>
+                    <p>
+                       Whether you're enjoying a family dinner, celebrating a special occasion, or stopping by for a quick meal, Dwaraka Restaurant is
+                        committed to delivering great taste, excellent service, and complete customer satisfaction. Our Restaurant Management System
+                        makes reservations and ordering simple, fast, and convenient.
+                    </p>
+                    <div class="position-relative mt-4">
+                        <img src="{% static 'web/assets/img/about-2.jpg' %}" class="img-fluid" alt="">
+                        <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8"
+                           class="glightbox pulsating-play-btn"></a>
+                    </div>
+                </div>
+            </div>
         </div>
-
-      </div>
-<section id="why-us" class="why-us section light-background">
-
-      <div class="container">
-
         <div class="row gy-4">
+            <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+                  <div class="content ps-0 ps-lg-5">
+                    <p class="fst-italic">
+                   Dwaraka Restaurant was founded with a simple vision—to serve delicious food prepared with fresh ingredients, authentic recipes, and genuine hospitality. Every dish is crafted with care to deliver the rich flavors that bring families and friends together.
+                    </p>
+                      <p>
+                          From traditional Indian specialties to Chinese favorites and refreshing beverages, our menu is designed to satisfy every taste. We believe that great food is more than a meal—it's an experience shared with the people you love.
+                      </p>
+                      <p>
+                          Over the years, Dwaraka has become a place where customers enjoy quality food, warm service, and a welcoming atmosphere. Whether it's a casual lunch, a family dinner, or a special celebration, we strive to make every visit memorable.
+                      </p>
+                      <p>
+                          Our commitment remains unchanged: Fresh Ingredients. Authentic Flavors. Exceptional Hospitality.
+                      </p>
+                      </div>
 
-          <div class="col-lg-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-            <div class="why-box">
-              <h3>Why Choose Yummy</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
-              </p>
-              <div class="text-center">
-                <a href="#" class="more-btn"><span>Learn More</span> <i class="bi bi-chevron-right"></i></a>
-              </div>
-            </div>
-          </div><!-- End Why Box -->
-
-          <div class="col-lg-8 d-flex align-items-stretch">
-            <div class="row gy-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
-
-              <div class="col-xl-4">
-                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                  <i class="bi bi-clipboard-data"></i>
-                  <h4>Corporis voluptates officia eiusmod</h4>
-                  <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
-                </div>
-              </div><!-- End Icon Box -->
-
-              <div class="col-xl-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
-                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                  <i class="bi bi-gem"></i>
-                  <h4>Ullamco laboris ladore lore pan</h4>
-                  <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                </div>
-              </div><!-- End Icon Box -->
-
-              <div class="col-xl-4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
-                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
-                  <i class="bi bi-inboxes"></i>
-                  <h4>Labore consequatur incidid dolore</h4>
-                  <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
-                </div>
-              </div><!-- End Icon Box -->
 
             </div>
-          </div>
+            <div class=="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'web/assets/img/a1.jpg' %}" class="img-fluid mb-4" alt="">
+
+            </div>
 
         </div>
 
-      </div>
+    </div>
 
-    </section>
+</section><!-- /About Section -->
 
+</main>
+
+<footer id="footer" class="footer dark-background">
+
+    <div class="container">
+        <div class="row gy-3">
+            <div class="col-lg-3 col-md-6 d-flex">
+                <i class="bi bi-geo-alt icon"></i>
+                <div class="address">
+                    <h4>Address</h4>
+                    <p>A108 Adam Street</p>
+                    <p>New York, NY 535022</p>
+                    <p></p>
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 d-flex">
+                <i class="bi bi-telephone icon"></i>
+                <div>
+                    <h4>Contact</h4>
+                    <p>
+                        <strong>Phone:</strong> <span>+1 5589 55488 55</span><br>
+                        <strong>Email:</strong> <span>info@example.com</span><br>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 d-flex">
+                <i class="bi bi-clock icon"></i>
+                <div>
+                    <h4>Opening Hours</h4>
+                    <p>
+                        <strong>Mon-Sat:</strong> <span>11AM - 23PM</span><br>
+                        <strong>Sunday</strong>: <span>Closed</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <h4>Follow Us</h4>
+                <div class="social-links d-flex">
+                    <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you've purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a
+                href="https://themewagon.com">ThemeWagon</a>
+        </div>
+    </div>
+
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
 <script src="{% static 'web/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'web/assets/vendor/php-email-form/validate.js' %}"></script>
 <script src="{% static 'web/assets/vendor/aos/aos.js' %}"></script>
 <script src="{% static 'web/assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
 <script src="{% static 'web/assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
 <script src="{% static 'web/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+<!-- Main JS File -->
 <script src="{% static 'web/assets/js/main.js' %}"></script>
-
-
-
-
+<script>
+</script>
 
 </body>
+
 </html>

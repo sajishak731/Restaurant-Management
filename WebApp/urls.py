@@ -13,6 +13,9 @@ urlpatterns= [
     path('user_logout/', views.user_logout, name="user_logout"),
 
     path('menu/', views.menu, name="menu"),
+    path('contact_page/', views.contact_page, name="contact_page"),
+    path('Send_message/', views.Send_message, name="Send_message"),
+
     path('add_cart/', views.add_cart, name="add_cart"),
     path('save_cart_items/',views.save_cart_items,name="save_cart_items"),
     path('view_cart/',views.view_cart,name="view_cart"),
@@ -24,5 +27,6 @@ urlpatterns= [
     # path("book_table/", views.book_table, name="book_table"),
     path("book_table/", views.book_table, name="book_table"),
     path("booking_success/", views.booking_success, name="booking_success"),
+    path("payment_success/", views.payment_success, name="payment_success"),
 
 ]
